@@ -1,8 +1,10 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import styled from "styled-components"
+import { supabase } from '../lib/supabase'
+import { Auth } from '@supabase/ui'
 
 const GlobalStyle = createGlobalStyle`
-  html, body, #root {
+  html, body, #__next {
     height: 100%;
   }
   body {
@@ -43,13 +45,14 @@ const Overlay = styled.div`
 `
 
 export default function App({ Component, pageProps }) {
+  console.log(supabase)
   return (
-    <>
+    <Auth.UserContextProvider supabaseClient={supabase}>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
       <Overlay />
-    </>
+    </Auth.UserContextProvider>
   )
 }
